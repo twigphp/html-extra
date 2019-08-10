@@ -52,7 +52,7 @@ final class HtmlExtension extends AbstractExtension
 
         if (null === $mime) {
             if (null === $this->mimeTypes) {
-                if (!class_exists(MimeTypes::class)) {
+                if (!\class_exists(MimeTypes::class)) {
                     throw new \LogicException('The "data_uri" function requires the symfony/mime package to be installed.');
                 }
 
@@ -60,14 +60,14 @@ final class HtmlExtension extends AbstractExtension
             }
 
             try {
-                $tmp = tempnam(sys_get_temp_dir(), 'mime');
-                file_put_contents($tmp, $data);
+                $tmp = \tempnam(sys_get_temp_dir(), 'mime');
+                \file_put_contents($tmp, $data);
 
                 if (null === $mime = $this->mimeTypes->guessMimeType($tmp)) {
                     $mime = 'text/plain';
                 }
             } finally {
-                @unlink($tmp);
+                @\unlink($tmp);
             }
         }
         $repr .= $mime;
@@ -111,6 +111,6 @@ function twig_html_classes(...$args): string
         }
     }
 
-    return implode(' ', array_unique($classes));
+    return \implode(' ', \array_unique($classes));
 }
 }
