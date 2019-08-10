@@ -60,7 +60,7 @@ final class HtmlExtension extends AbstractExtension
             }
 
             try {
-                $tmp = \tempnam(sys_get_temp_dir(), 'mime');
+                $tmp = \tempnam(\sys_get_temp_dir(), 'mime');
                 \file_put_contents($tmp, $data);
 
                 if (null === $mime = $this->mimeTypes->guessMimeType($tmp)) {
@@ -73,13 +73,13 @@ final class HtmlExtension extends AbstractExtension
         $repr .= $mime;
 
         foreach ($parameters as $key => $value) {
-            $repr .= ';'.$key.'='.rawurlencode($value);
+            $repr .= ';'.$key.'='.\rawurlencode($value);
         }
 
-        if (0 === strpos($mime, 'text/')) {
-            $repr .= ','.rawurlencode($data);
+        if (0 === \strpos($mime, 'text/')) {
+            $repr .= ','.\rawurlencode($data);
         } else {
-            $repr .= ';base64,'.base64_encode($data);
+            $repr .= ';base64,'.\base64_encode($data);
         }
 
         return $repr;
