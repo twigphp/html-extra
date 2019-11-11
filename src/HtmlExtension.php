@@ -35,6 +35,7 @@ final class HtmlExtension extends AbstractExtension
     {
         return [
             new TwigFunction('html_classes', 'twig_html_classes'),
+            new TwigFunction('html_attr', [$this, 'twig_html_attributes'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -107,5 +108,23 @@ function twig_html_classes(...$args): string
     }
 
     return implode(' ', array_unique($classes));
+}
+
+function twig_html_attributes(array $attributes): string
+{
+    $output = '';
+
+    foreach ($attributes as $attribute => $value) {
+        if ($value === true) {
+            $output .= ' ' . $attribute;
+        } else if (\is_string($value) || \is_numeric($value)) {
+            $value = \htmlspecialchars($value, ENT_COMPAT | ENT_HTML5, 'UTF-8', false);
+            $output .= sprintf(' %s="%s"', $attribute, $value);
+        } else if ($value !== false) {
+            throw new RuntimeError(sprintf('The html_attr function argument value of key %d should be either a boolean, string or number, got "%s".', $attribute, \gettype($value)));
+        }
+    }
+
+    return $output;
 }
 }
