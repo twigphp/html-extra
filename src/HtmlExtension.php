@@ -35,7 +35,7 @@ final class HtmlExtension extends AbstractExtension
     {
         return [
             new TwigFunction('html_classes', 'twig_html_classes'),
-            new TwigFunction('html_attr', [$this, 'twig_html_attributes'], ['is_safe' => ['html']]),
+            new TwigFunction('html_attr', 'twig_html_attributes', ['is_safe' => ['html']]),
         ];
     }
 
