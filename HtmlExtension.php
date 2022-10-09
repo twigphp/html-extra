@@ -28,6 +28,7 @@ final class HtmlExtension extends AbstractExtension
     {
         return [
             new TwigFilter('data_uri', [$this, 'dataUri']),
+            new TwigFilter('html_attributes', [$this, 'htmlAttributes'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -78,6 +79,26 @@ final class HtmlExtension extends AbstractExtension
         }
 
         return $repr;
+    }
+
+    /**
+     * @param array{string, string|bool} $attributes
+     */
+    public function htmlAttributes(array $attributes): string
+    {
+        /** @var string[] $htmlAttributes */
+        $htmlAttributes = [];
+        foreach ($attributes as $key => $value) {
+            if (\is_bool($value) && $value) {
+                $htmlAttributes[] .= $key;
+
+                continue;
+            }
+
+            $htmlAttributes[] .= $key . '="' . $value . '"';
+        }
+
+        return \implode(' ', $htmlAttributes);
     }
 }
 }
