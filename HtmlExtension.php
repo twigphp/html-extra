@@ -89,8 +89,10 @@ final class HtmlExtension extends AbstractExtension
         /** @var string[] $htmlAttributes */
         $htmlAttributes = [];
         foreach ($attributes as $key => $value) {
-            if (\is_bool($value) && $value) {
-                $htmlAttributes[] .= $key;
+            if (\is_bool($value)) {
+                if ($value) {
+                    $htmlAttributes[] .= $key;
+                }
 
                 continue;
             }
