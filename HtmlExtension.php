@@ -82,7 +82,7 @@ final class HtmlExtension extends AbstractExtension
     }
 
     /**
-     * @param array{string, string|bool} $attributes
+     * @param array{string, string|bool|null} $attributes
      */
     public function htmlAttributes(array $attributes): string
     {
@@ -98,6 +98,10 @@ final class HtmlExtension extends AbstractExtension
             }
 
             $htmlAttributes[] .= $key . '="' . $value . '"';
+        }
+        
+        if ($value === null) {
+            continue;
         }
 
         return \implode(' ', $htmlAttributes);
