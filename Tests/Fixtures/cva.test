@@ -1,0 +1,18 @@
+--TEST--
+"cva" function
+--TEMPLATE--
+{% set alert = cva('alert', {
+   theme: {
+      primary: 'bg-blue',
+      secondary: 'bg-orange'
+   },
+    size: {
+        small: 'text-sm',
+        large: 'text-lg'
+    }
+}) %}
+{{ alert.apply({theme: 'primary', size: 'large'}) }}
+--DATA--
+return []
+--EXPECT--
+alert bg-blue text-lg

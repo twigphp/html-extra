@@ -14,6 +14,7 @@ use Symfony\Component\Mime\MimeTypes;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use Twig\Extra\Html\CVA;
 
 final class HtmlExtension extends AbstractExtension
 {
@@ -35,6 +36,7 @@ final class HtmlExtension extends AbstractExtension
     {
         return [
             new TwigFunction('html_classes', 'twig_html_classes'),
+            new TwigFunction('cva', [$this, 'cva'])
         ];
     }
 
@@ -78,6 +80,16 @@ final class HtmlExtension extends AbstractExtension
         }
 
         return $repr;
+    }
+
+    /**
+     * @param string     $base      some base class you want to have in every matching recipes
+     * @param array      $recipe    your recipes class
+     * @param array|null $compounds compounds allow you to add extra class when multiple variation are matching in the same time
+     */
+    public function cva(string $base, array $recipe, ?array $compounds = []): CVA
+    {
+        return new CVA($base, $recipe, $compounds);
     }
 }
 }
